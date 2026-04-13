@@ -37,6 +37,9 @@ export default function App() {
   const [formData, setFormData] = useState({ name: '', code: '', credits: 3, type: 'P', season: 'both', lectures: 0, practices: 0, labs: 0, selfStudy: 0, kosLink: '' });
   const [editingSubjectId, setEditingSubjectId] = useState(null);
   const [semesterCount, setSemesterCount] = useState(4);
+  const [semesterTitles, setSemesterTitles] = useState({});
+  const [editingSemesterId, setEditingSemesterId] = useState(null);
+  const [tempSemesterTitle, setTempSemesterTitle] = useState('');
 
   // ── Bootstrap: load users + auto-login last user ───────────────────────────
   useEffect(() => {
@@ -52,9 +55,9 @@ export default function App() {
   // ── Persist subjects whenever they change ──────────────────────────────────
   useEffect(() => {
     if (currentUser !== null) {
-      LS.saveData(currentUser, { subjects, semesterCount });
+      LS.saveData(currentUser, { subjects, semesterCount, semesterTitles });
     }
-  }, [subjects, semesterCount, currentUser]);
+  }, [subjects, semesterCount, semesterTitles, currentUser]);
 
   // ── Auth handlers ───────────────────────────────────────────────────────────
   const loginUser = (username) => {
@@ -65,13 +68,16 @@ export default function App() {
       if (Array.isArray(saved)) {
         setSubjects(saved);
         setSemesterCount(4);
+        setSemesterTitles({});
       } else {
         setSubjects(saved.subjects || INITIAL_SUBJECTS);
         setSemesterCount(saved.semesterCount || 4);
+        setSemesterTitles(saved.semesterTitles || {});
       }
     } else {
       setSubjects(INITIAL_SUBJECTS);
       setSemesterCount(4);
+      setSemesterTitles({});
     }
   };
 
@@ -165,6 +171,15 @@ export default function App() {
     }
   };
 
+  const handleSaveSemesterTitle = (id) => {
+    const trimmed = tempSemesterTitle.trim();
+    setSemesterTitles(prev => ({
+      ...prev,
+      [id]: trimmed ? trimmed : `Semester ${id}`
+    }));
+    setEditingSemesterId(null);
+  };
+
   // ── Drag & Drop ─────────────────────────────────────────────────────────────
   const onDragStart = (e, id) => {
     setDraggedSubjectId(id);
@@ -240,7 +255,7 @@ export default function App() {
   const semesters = useMemo(() => {
     const semsIdArray = Array.from({ length: semesterCount }, (_, i) => i + 1);
     const sems = semsIdArray.map(id => ({ 
-      id, title: `Semester ${id}`, subjects: [], credits: 0,
+      id, title: semesterTitles[id] || `Semester ${id}`, subjects: [], credits: 0,
       schoolHours: 0, hoursDist: { lectures: 0, practices: 0, labs: 0, selfStudy: 0 },
       stats: { 
         P: { count: 0, credits: 0 }, 
@@ -265,15 +280,25 @@ export default function App() {
       }
     });
     return sems;
-  }, [subjects, semesterCount]);
+  }, [subjects, semesterCount, semesterTitles]);
 
   const totalCredits = useMemo(() => semesters.reduce((s, sem) => s + sem.credits, 0), [semesters]);
+
+  const totalCreditsStats = useMemo(() => {
+    const s = { P: 0, PV: 0, V: 0 };
+    semesters.forEach(sem => {
+      s.P += sem.stats.P.credits;
+      s.PV += sem.stats.PV.credits;
+      s.V += sem.stats.V.credits;
+    });
+    return s;
+  }, [semesters]);
 
   // ── Render helpers ──────────────────────────────────────────────────────────
   const renderStats = (stats, totalSubjects, totalCredits, schoolHours, hoursDist) => (
     <div className="stats-row">
       <span className="stat-item total" title="Total Subjects">{totalSubjects} subj</span>
-      <span className="stat-item total" title="Total Credits">{totalCredits} cr</span>
+      <span className="stat-item total" title={`Total Credits\nPovinný (P): ${stats.P.credits} cr\nPovinně volitelný (PV): ${stats.PV.credits} cr\nVolitelný (V): ${stats.V.credits} cr`}>{totalCredits} cr</span>
       <span className="stat-item total" title={`Přednášky: ${hoursDist.lectures}\nCvičení: ${hoursDist.practices}\nLaboratoře: ${hoursDist.labs}\nSamostudium: ${hoursDist.selfStudy}`}>🏫 {schoolHours} hrs</span>
       <div className="stat-types">
         <span className="stat-item stat-p" title={`Povinný (P): ${stats.P.credits} credits`}>{stats.P.count}</span>
@@ -383,14 +408,14 @@ export default function App() {
       <header>
         <div>
           <h1>Semester Planner</h1>
-          <p style={{ color: 'var(--text-muted)', margin: '0.5rem 0 0 0' }}>Plan your next 4 semesters intuitively</p>
+          <p style={{ color: 'var(--text-muted)', margin: '0.5rem 0 0 0' }}>Plan your next semesters intuitively</p>
         </div>
         <div className="header-actions">
           <div className="user-pill">
             <span className="user-pill-avatar">{currentUser[0].toUpperCase()}</span>
             <span>{currentUser}</span>
           </div>
-          <div className="total-credits">
+          <div className="total-credits" title={`Total Scheduled Credits\nPovinný (P): ${totalCreditsStats.P} cr\nPovinně volitelný (PV): ${totalCreditsStats.PV} cr\nVolitelný (V): ${totalCreditsStats.V} cr`} style={{ cursor: 'help' }}>
             Total Credits: <span style={{ color: 'var(--accent-v)' }}>{totalCredits}</span>
           </div>
           <button className="primary-btn" onClick={() => {
@@ -423,7 +448,33 @@ export default function App() {
             <div key={sem.id} className="semester-col" onDragOver={onDragOver} onDrop={(e) => onDrop(e, sem.id)}>
               <div className="semester-header">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <h3>{sem.title}</h3>
+                  {editingSemesterId === sem.id ? (
+                    <input 
+                      type="text" 
+                      value={tempSemesterTitle}
+                      autoFocus
+                      onBlur={() => handleSaveSemesterTitle(sem.id)}
+                      onChange={(e) => setTempSemesterTitle(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') handleSaveSemesterTitle(sem.id);
+                        if (e.key === 'Escape') setEditingSemesterId(null);
+                      }}
+                      style={{ fontSize: '1.17em', fontWeight: 'bold', width: '100%', background: 'transparent', border: 'none', color: 'inherit', borderBottom: '1px solid var(--accent-primary)', outline: 'none', marginRight: '1rem' }}
+                    />
+                  ) : (
+                    <h3 
+                      onClick={() => {
+                        setTempSemesterTitle(sem.title);
+                        setEditingSemesterId(sem.id);
+                      }}
+                      title="Click to rename"
+                      style={{ cursor: 'pointer', borderBottom: '1px dashed transparent', margin: 0, transition: 'border-color 0.2s', flex: 1 }}
+                      onMouseEnter={(e) => e.target.style.borderBottomColor = 'var(--text-muted)'}
+                      onMouseLeave={(e) => e.target.style.borderBottomColor = 'transparent'}
+                    >
+                      {sem.title}
+                    </h3>
+                  )}
                   <button 
                     onClick={() => handleResetSemester(sem.id)} 
                     title="Reset Semester"
