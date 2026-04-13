@@ -180,6 +180,48 @@ export default function App() {
     setEditingSemesterId(null);
   };
 
+  const handleExport = () => {
+    const allData = { 
+      version: '1.0',
+      timestamp: new Date().toISOString(),
+      username: currentUser,
+      subjects,
+      semesterCount,
+      semesterTitles
+    };
+    const blob = new Blob([JSON.stringify(allData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `semester_planner_${currentUser}_${new Date().toISOString().split('T')[0]}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleImport = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const data = JSON.parse(event.target.result);
+        if (data.subjects && data.semesterCount !== undefined) {
+          if (window.confirm('Importing will overwrite your current plan for this profile. Continue?')) {
+            setSubjects(data.subjects);
+            setSemesterCount(data.semesterCount);
+            setSemesterTitles(data.semesterTitles || {});
+          }
+        } else {
+          alert('Invalid file format.');
+        }
+      } catch (err) {
+        alert('Error reading file.');
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = ''; // Reset input
+  };
+
   // ── Drag & Drop ─────────────────────────────────────────────────────────────
   const onDragStart = (e, id) => {
     setDraggedSubjectId(id);
@@ -418,6 +460,19 @@ export default function App() {
           <div className="total-credits" title={`Total Scheduled Credits\nPovinný (P): ${totalCreditsStats.P} cr\nPovinně volitelný (PV): ${totalCreditsStats.PV} cr\nVolitelný (V): ${totalCreditsStats.V} cr`} style={{ cursor: 'help' }}>
             Total Credits: <span style={{ color: 'var(--accent-v)' }}>{totalCredits}</span>
           </div>
+          <button className="secondary-btn" onClick={handleExport} title="Export current plan to JSON file">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px' }}>
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Export
+          </button>
+          <label className="secondary-btn" style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} title="Import plan from JSON file">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px' }}>
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            Import
+            <input type="file" accept=".json" onChange={handleImport} style={{ display: 'none' }} />
+          </label>
           <button className="primary-btn" onClick={() => {
             setFormData({ name: '', code: '', credits: 3, type: 'P', season: 'both', lectures: 0, practices: 0, labs: 0, selfStudy: 0, kosLink: '' });
             setEditingSubjectId(null);
