@@ -527,7 +527,7 @@ export default function App() {
                       onMouseEnter={(e) => e.target.style.borderBottomColor = 'var(--text-muted)'}
                       onMouseLeave={(e) => e.target.style.borderBottomColor = 'transparent'}
                     >
-                      {sem.title}
+                      {sem.title} {sem.id % 2 !== 0 ? '❄️' : '☀️'}
                     </h3>
                   )}
                   <button 
