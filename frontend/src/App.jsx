@@ -7,10 +7,10 @@ const TYPES = {
 };
 
 const INITIAL_SUBJECTS = [
-  { id: '1', name: 'Základy programování',  code: 'IT101',  credits: 6, type: 'P',  season: 'winter', lectures: 2, practices: 2, labs: 0, selfStudy: 4, kosLink: 'https://kos.cvut.cz/', semesterId: null },
-  { id: '2', name: 'Pokročilá matematika',  code: 'MAT201', credits: 5, type: 'P',  season: 'summer', lectures: 3, practices: 1, labs: 0, selfStudy: 3, kosLink: '', semesterId: null },
-  { id: '3', name: 'Umělá inteligence',     code: 'AI300',  credits: 4, type: 'PV', season: 'winter', lectures: 2, practices: 0, labs: 2, selfStudy: 5, kosLink: '', semesterId: null },
-  { id: '4', name: 'Komunikace a soft skills', code: 'HUM105', credits: 2, type: 'V', season: 'both',   lectures: 0, practices: 2, labs: 0, selfStudy: 0, kosLink: '', semesterId: null }
+  { id: '1', name: 'Základy programování',  code: 'IT101',  credits: 6, type: 'P',  season: 'winter', lectures: 2, practices: 2, labs: 0, selfStudy: 4, kosLink: 'https://kos.cvut.cz/', surveyLink: '', semesterId: null },
+  { id: '2', name: 'Pokročilá matematika',  code: 'MAT201', credits: 5, type: 'P',  season: 'summer', lectures: 3, practices: 1, labs: 0, selfStudy: 3, kosLink: '', surveyLink: '', semesterId: null },
+  { id: '3', name: 'Umělá inteligence',     code: 'AI300',  credits: 4, type: 'PV', season: 'winter', lectures: 2, practices: 0, labs: 2, selfStudy: 5, kosLink: '', surveyLink: '', semesterId: null },
+  { id: '4', name: 'Komunikace a soft skills', code: 'HUM105', credits: 2, type: 'V', season: 'both',   lectures: 0, practices: 2, labs: 0, selfStudy: 0, kosLink: '', surveyLink: '', semesterId: null }
 ];
 
 // ── LocalStorage helpers ──────────────────────────────────────────────────────
@@ -34,7 +34,7 @@ export default function App() {
   const [subjects,        setSubjects]        = useState([]);
   const [isModalOpen,     setIsModalOpen]     = useState(false);
   const [draggedSubjectId, setDraggedSubjectId] = useState(null);
-  const [formData, setFormData] = useState({ name: '', code: '', credits: 3, type: 'P', season: 'both', lectures: 0, practices: 0, labs: 0, selfStudy: 0, kosLink: '' });
+  const [formData, setFormData] = useState({ name: '', code: '', credits: 3, type: 'P', season: 'both', lectures: 0, practices: 0, labs: 0, selfStudy: 0, kosLink: '', surveyLink: '' });
   const [editingSubjectId, setEditingSubjectId] = useState(null);
   const [semesterCount, setSemesterCount] = useState(4);
   const [semesterTitles, setSemesterTitles] = useState({});
@@ -107,7 +107,7 @@ export default function App() {
   const closeModal = () => {
     setIsModalOpen(false);
     setEditingSubjectId(null);
-    setFormData({ name: '', code: '', credits: 3, type: 'P', season: 'both', lectures: 0, practices: 0, labs: 0, selfStudy: 0, kosLink: '' });
+    setFormData({ name: '', code: '', credits: 3, type: 'P', season: 'both', lectures: 0, practices: 0, labs: 0, selfStudy: 0, kosLink: '', surveyLink: '' });
   };
 
   const handleEditClick = (sub) => {
@@ -121,7 +121,8 @@ export default function App() {
       practices: sub.practices ?? 0,
       labs: sub.labs ?? 0,
       selfStudy: sub.selfStudy ?? 0,
-      kosLink: sub.kosLink || ''
+      kosLink: sub.kosLink || '',
+      surveyLink: sub.surveyLink || ''
     });
     setEditingSubjectId(sub.id);
     setIsModalOpen(true);
@@ -142,7 +143,8 @@ export default function App() {
       practices: parseInt(formData.practices, 10) || 0,
       labs: parseInt(formData.labs, 10) || 0,
       selfStudy: parseInt(formData.selfStudy, 10) || 0,
-      kosLink: formData.kosLink ? formData.kosLink.trim() : ''
+      kosLink: formData.kosLink ? formData.kosLink.trim() : '',
+      surveyLink: formData.surveyLink ? formData.surveyLink.trim() : ''
     };
 
     if (editingSubjectId) {
@@ -379,6 +381,20 @@ export default function App() {
                 </svg>
               </a>
             )}
+            {sub.surveyLink && (
+              <a 
+                href={sub.surveyLink} 
+                target="_blank" 
+                rel="noreferrer" 
+                onClick={(e) => { e.stopPropagation(); }} 
+                title="Open Survey link"
+                style={{ color: 'var(--accent-pv)', display: 'flex', alignItems: 'center' }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+              </a>
+            )}
             {sub.season === 'winter' && <span title="Winter Semester" style={{ fontSize: '0.85rem' }}>❄️</span>}
             {sub.season === 'summer' && <span title="Summer Semester" style={{ fontSize: '0.85rem' }}>☀️</span>}
             {sub.season === 'both' && <span title="Both Semesters" style={{ fontSize: '0.85rem' }}>❄️/☀️</span>}
@@ -474,7 +490,7 @@ export default function App() {
             <input type="file" accept=".json" onChange={handleImport} style={{ display: 'none' }} />
           </label>
           <button className="primary-btn" onClick={() => {
-            setFormData({ name: '', code: '', credits: 3, type: 'P', season: 'both', lectures: 0, practices: 0, labs: 0, selfStudy: 0, kosLink: '' });
+            setFormData({ name: '', code: '', credits: 3, type: 'P', season: 'both', lectures: 0, practices: 0, labs: 0, selfStudy: 0, kosLink: '', surveyLink: '' });
             setEditingSubjectId(null);
             setIsModalOpen(true);
           }}>+ Add Subject</button>
@@ -605,6 +621,11 @@ export default function App() {
                 <label>KOS Link (optional)</label>
                 <input type="url" className="form-control" value={formData.kosLink}
                   onChange={e => setFormData({...formData, kosLink: e.target.value})} placeholder="https://kos.cvut.cz/..." />
+              </div>
+              <div className="form-group">
+                <label>Survey Link (optional)</label>
+                <input type="url" className="form-control" value={formData.surveyLink}
+                  onChange={e => setFormData({...formData, surveyLink: e.target.value})} placeholder="https://..." />
               </div>
               <div className="form-group" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem' }}>
                 <div>
