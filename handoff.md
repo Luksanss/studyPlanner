@@ -74,7 +74,7 @@ Tento handoff je další dokumentační změna. Rozlišuj lokální Git historii
 - **Plán semestrů:** stručné karty, kredity a důležitý příznak opakování. Tlačítko **Podrobnosti** zpřístupní kódy, období výuky, výběr přesunu a hodinovou zátěž.
 - Přesun lze provést také z detailu předmětu; zůstává HTML5 drag-and-drop.
 - Nezařazené předměty jsou ve výchozím stavu sbalené.
-- Kopie varianty plánu je v menu **Možnosti plánu (⋯)**.
+- **Přidat plán** je přímo vedle přepínače plánů. Otevře dialog pro pojmenování nové varianty, která zkopíruje aktuální rozložení; historie zůstává společná. Původní menu Možnosti plánu bylo odstraněné.
 - Import, záloha a nastavení jsou v horním menu **Další akce (⋯)**. Nastavení je dostupné i v desktopovém sidebaru.
 - Historie výsledků zůstává tabulková s hledáním a filtry.
 
