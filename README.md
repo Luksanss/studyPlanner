@@ -1,5 +1,7 @@
 # Semester Planner V2
 
+Pro pokračování vývoje v novém chatu začni souborem [handoff.md](handoff.md).
+
 Osobní plánovač studia Lékařská elektronika a bioinformatika na FEL ČVUT. Původní aplikace je uchovaná v `legacy/v1`; V2 je ve `frontend`.
 
 ## Spuštění
