@@ -16,8 +16,10 @@ npm run dev
 
 ## Import a používání
 
+První spuštění má dva povinné kroky: jméno a import studijních výsledků. Přehled ani plán nejsou dostupné před úspěšným importem. Existující studium se otevře rovnou. Pro přenos mezi prohlížeči je dostupná i obnova zálohy obsahující výsledky.
+
 1. V KOSu otevři **Studijní výsledky → Tisk studijních výsledků → Česky** a stáhni PDF.
-2. V aplikaci otevři **Import z KOSu**, vyber PDF, zkontroluj náhled a potvrď import.
+2. V aplikaci otevři **Další akce (⋯) → Import z KOSu**, vyber PDF, zkontroluj náhled a potvrď import.
 3. Stejným způsobem přenes JSON export V1. Jeho semestry 1–4 se převedou na budoucí semestry 5–8.
 4. Přesouvej předměty přetažením nebo výběrem na kartě. Přesuny mění jen plán, nikoli zápisy či výsledky v KOSu.
 5. Tlačítkem zálohy stáhni kompletní JSON pro obnovení a přenos do jiného prohlížeče.
