@@ -73,7 +73,7 @@ Tento handoff je další dokumentační změna. Rozlišuj lokální Git historii
 
 - **Přehled studia:** jeden ukazatel získaných kreditů a čtyři budoucí semestry.
 - **K opakování** a **Statistiky a podmínky studia** jsou ve výchozím stavu sbalené.
-- **Plán semestrů:** stručné karty, kredity a důležitý příznak opakování. Tlačítko **Podrobnosti** zpřístupní kódy, období výuky, výběr přesunu a hodinovou zátěž.
+- **Plán semestrů:** vždy viditelné kredity, týdenní výuka v hlavičce i na kartách, počty P/PV/V a příznak opakování. Barvy P korálová, PV zlatá, V zelená jsou doplněny textovými štítky a legendou. Hlavička ukazuje skutečné hodiny i přepočet z vyučovacích hodin (např. 16 × 45 min = 12 h). Neznámý rozsah je označen otazníkem. Tlačítko **Podrobnosti** zpřístupní kódy, období výuky, výběr přesunu a rozpad samostudia/práce.
 - Přesun lze provést také z detailu předmětu; zůstává HTML5 drag-and-drop.
 - Nezařazené předměty jsou ve výchozím stavu sbalené.
 - **Přidat plán** je přímo vedle přepínače plánů. Otevře dialog pro pojmenování nové varianty, která zkopíruje aktuální rozložení; historie zůstává společná. Původní menu Možnosti plánu bylo odstraněné.
@@ -213,6 +213,8 @@ Současná V2 je nasazená přes **Sites**, staticky z `frontend/dist`.
 - Nespolehej na stará ID běžících procesů, browser tabů, temp cest nebo credentials z minulého chatu.
 
 ## 10. Co dál — odliš zadání od návrhů
+
+**Poslední změna (7. 9. 2026):** uživatel chtěl zachovat čistý vzhled V2, ale vrátit informační užitečnost V1. Zásadní údaje (zejména týdenní výuka) proto nesmějí být skryté pod Podrobnosti. Upraveny hlavičky semestrů, karty a barevné rozlišení rolí, bez změny dat/modelu. Ověřeno sestavením a v prohlížeči (běžný i rozbalený pohled, šířka 1512 px bez horizontálního přetečení).
 
 **Aktuálně není rozpracovaný funkční požadavek.** Zjednodušení UI, onboarding a reset jsou hotové. Tento soubor vznikl na výslovné přání uživatele pro pokračování v novém chatu.
 
