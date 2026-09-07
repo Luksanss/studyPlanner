@@ -240,3 +240,6 @@ Doporučené menší kroky k diskusi, nikoli už schválený sprint:
 3. Zachovej existující uživatelská data, jednoduchý UI směr a oddělení historie od plánů.
 4. Změnu dokonči, přiměřeně ověř a ulož v samostatném commitu. Při nasazování použij existující Site a její současná pravidla.
 5. Aktualizuj tento handoff po další významné změně, zejména při změně modelu, importu, onboardingu, synchronizace nebo hostingu.
+
+### Záložka prohlížeče (7. 9. 2026)
+Název je „Semester“, favicon modrá s bílou absolventskou čepicí. Relativní odkaz na favicon funguje i pod /studyPlanner/ na GitHub Pages; query v=2 obnovuje starou ikonu z cache.
