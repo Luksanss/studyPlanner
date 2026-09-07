@@ -43,7 +43,7 @@ Uživatel původně žádal analýzu a plán, následně výslovně požadoval f
 - **Soukromá nasazená V2:** <https://semester-planner-lukas-v2.luksans.chatgpt.site>.
 - Hosting manifest: `frontend/.openai/hosting.json`.
 - Sites project ID: `appgprj_6a9c2bd40d208191927576729836a76d`.
-- Poslední ověřené nasazení: Sites verze **5**, obsahuje reset, tlačítko Přidat plán u přepínače a upravený sidebar. Přístup byl owner-only pro uživatele; před změnami sdílení ověř aktuální stav.
+- Poslední ověřené nasazení: Sites verze **6**, obsahuje i vždy viditelné týdenní hodiny a barevné rozlišení rolí předmětů (commit aplikace 0b6b089). Přístup byl owner-only pro uživatele; před změnami sdílení ověř aktuální stav.
 - `TODO.md` obsahuje starší mobilní backlog z původní aplikace; není aktuálním schváleným plánem V2.
 - `Semester-planner-nano/` není aktivní adresář V2.
 - Licence v `LICENSE`: PolyForm Noncommercial 1.0.0.
