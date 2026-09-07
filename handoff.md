@@ -43,7 +43,7 @@ Uživatel původně žádal analýzu a plán, následně výslovně požadoval f
 - **Soukromá nasazená V2:** <https://semester-planner-lukas-v2.luksans.chatgpt.site>.
 - Hosting manifest: `frontend/.openai/hosting.json`.
 - Sites project ID: `appgprj_6a9c2bd40d208191927576729836a76d`.
-- Poslední ověřené nasazení: Sites verze **3**, obsahuje reset. Přístup byl owner-only pro uživatele; před změnami sdílení ověř aktuální stav.
+- Poslední ověřené nasazení: Sites verze **5**, obsahuje reset, tlačítko Přidat plán u přepínače a upravený sidebar. Přístup byl owner-only pro uživatele; před změnami sdílení ověř aktuální stav.
 - `TODO.md` obsahuje starší mobilní backlog z původní aplikace; není aktuálním schváleným plánem V2.
 - `Semester-planner-nano/` není aktivní adresář V2.
 - Licence v `LICENSE`: PolyForm Noncommercial 1.0.0.
@@ -64,6 +64,8 @@ Commity v hlavním repozitáři, od nejstaršího:
 | `24c3beb` | Zjednodušené UI: detaily na vyžádání, kratší karty, menu méně častých akcí. |
 | `6dde5e7` | Povinný dvoukrokový onboarding: jméno a import studijních výsledků. |
 | `5e78b2c` | Potvrzovaný reset všech lokálních údajů v nastavení. |
+| `ce5acbd` | Přidat plán přímo vedle přepínače plánů. |
+| `6d9bae1` | Kompaktní blok studia a upravené rozložení sidebaru. |
 
 Tento handoff je další dokumentační změna. Rozlišuj lokální Git historii, vzdálený GitHub `origin` a samostatnou source repository služby Sites. Nasazení na Sites samo neznamená push do GitHub `origin`.
 
