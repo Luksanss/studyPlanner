@@ -77,6 +77,7 @@ Tento handoff je další dokumentační změna. Rozlišuj lokální Git historii
 - **Přidat plán** je přímo vedle přepínače plánů. Otevře dialog pro pojmenování nové varianty, která zkopíruje aktuální rozložení; historie zůstává společná. Původní menu Možnosti plánu bylo odstraněné.
 - Import, záloha a nastavení jsou v horním menu **Další akce (⋯)**. Nastavení je dostupné i v desktopovém sidebaru.
 - Historie výsledků zůstává tabulková s hledáním a filtry.
+- Spodní sidebar má kompaktní blok programu: škola, přirozeně zalamovaný název a samostatný řádek „Bakalář · 2024–2028“. Profil respektuje dlouhá jména; nízké okno může sidebar posouvat.
 
 ### Onboarding
 
